@@ -1,0 +1,30 @@
+@use "vuetify/styles";
+
+body {
+    background-color: #f5f2eb;
+    font-family: 'Comfortaa', 'Zen Maru Gothic', sans-serif;
+    font-synthesis: none;
+}
+
+.page-inner {
+    width: 400px;
+    max-width: 90%;
+    padding: 16px 0 32px;
+    margin: 0 auto;
+}
+
+.card {
+    min-height: 176px;
+    padding: 1px;
+    margin: 0 auto;
+    background-color: #fff;
+    box-shadow: rgba(80, 73, 67, 0.2) 0 2px 8px;
+    border-radius: 8px;
+}
+
+#__nuxt {
+    .v-btn {
+        font-weight: 600;
+        text-transform: none;
+    }
+}

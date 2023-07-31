@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+  // If you want to use Prisma Migrate, you will need to manually create a shadow database
+  // https://neon.tech/docs/guides/prisma-migrate#configure-a-shadow-database-for-prisma-migrate
+  // make sure to append ?connect_timeout=10 to the connection string
+  // shadowDatabaseUrl = env(“SHADOW_DATABASE_URL”)
+}
+
+model User {
+  @@map("users")
+  id         String     @id
+  categories Category[]
+  stats      Stat[]
+  expenses   Expense[]
+}
+
+model Category {
+  @@map("categories")
+  id          Int    @id @default(autoincrement())
+  user        User   @relation(fields: [user_id], references: [id])
+  user_id     String
+  name        String
+  color       String @db.VarChar(9)
+  stats       Stat[]
+}
+
+model Stat {
+  @@map("stats")
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(fields: [user_id], references: [id])
+  user_id     String
+  category    Category @relation(fields: [category_id], references: [id])
+  category_id Int
+  year_month  DateTime @db.Date
+  amount      Int
+}
+
+model Expense {
+  @@map("expenses")
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(fields: [user_id], references: [id])
+  user_id     String
+  amount      Int
+  category    String
+  createtd_at DateTime
+  date        DateTime @db.Date
+  memo        String
+}
