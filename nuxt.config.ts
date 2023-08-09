@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   app: {
     head: {
       htmlAttrs: { lang: 'ja' },
+      title: 'kakeibo by nuxt',
       link: [{ rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600&family=Zen+Maru+Gothic:wght@400;500&display=swap' }]
     }
   },

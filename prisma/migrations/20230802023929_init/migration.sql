@@ -32,12 +32,21 @@ CREATE TABLE "expenses" (
     "user_id" TEXT NOT NULL,
     "amount" INTEGER NOT NULL,
     "category" TEXT NOT NULL,
-    "createtd_at" TIMESTAMP(3) NOT NULL,
+    "createtd_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "date" DATE NOT NULL,
     "memo" TEXT NOT NULL,
 
     CONSTRAINT "expenses_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE INDEX "categories_user_id_idx" ON "categories"("user_id");
+
+-- CreateIndex
+CREATE INDEX "stats_user_id_idx" ON "stats"("user_id");
+
+-- CreateIndex
+CREATE INDEX "expenses_user_id_idx" ON "expenses"("user_id");
 
 -- AddForeignKey
 ALTER TABLE "categories" ADD CONSTRAINT "categories_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

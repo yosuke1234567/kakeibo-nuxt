@@ -16,25 +16,27 @@ datasource db {
 }
 
 model User {
-  @@map("users")
   id         String     @id
   categories Category[]
   stats      Stat[]
   expenses   Expense[]
+
+  @@map("users")
 }
 
 model Category {
+  id      Int    @id @default(autoincrement())
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String
+  name    String
+  color   String @db.VarChar(9)
+  stats   Stat[]
+
+  @@index([user_id])
   @@map("categories")
-  id          Int    @id @default(autoincrement())
-  user        User   @relation(fields: [user_id], references: [id])
-  user_id     String
-  name        String
-  color       String @db.VarChar(9)
-  stats       Stat[]
 }
 
 model Stat {
-  @@map("stats")
   id          Int      @id @default(autoincrement())
   user        User     @relation(fields: [user_id], references: [id])
   user_id     String
@@ -42,16 +44,21 @@ model Stat {
   category_id Int
   year_month  DateTime @db.Date
   amount      Int
+
+  @@index([user_id])
+  @@map("stats")
 }
 
 model Expense {
-  @@map("expenses")
   id          Int      @id @default(autoincrement())
   user        User     @relation(fields: [user_id], references: [id])
   user_id     String
   amount      Int
   category    String
-  createtd_at DateTime
+  createtd_at DateTime @default(now())
   date        DateTime @db.Date
   memo        String
+
+  @@index([user_id])
+  @@map("expenses")
 }

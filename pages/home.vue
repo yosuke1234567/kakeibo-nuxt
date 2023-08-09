@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import { getAuth } from '@firebase/auth'
 
-definePageMeta({
-    layout: 'user'
-})
-
 
 </script>
 
@@ -17,5 +13,11 @@ definePageMeta({
 </template>
 
 <style lang="scss" scoped>
-
+h2 {
+    margin-bottom: 16px;
+}
+.card {
+    min-height: 176px;
+    margin-bottom: 40px;
+}
 </style>
