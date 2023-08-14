@@ -10,14 +10,26 @@ const isAuth = ref<boolean>()
 const unsubscribe = onAuthStateChanged(auth, async (user) => {
     if (user) {
         isAuth.value = true
+        const token = await user.getIdToken(true)
+        const { data, pending, error } = await useFetch('api/auth', {
+            method: 'POST',
+            body: token
+        })
+        if (error.value) {
+            isAuth.value = false
+            auth.signOut()
+            router.replace('/signin')
+        }
+
         router.replace('/home')
     } else {
         isAuth.value = false
         router.replace('/signin')
     }
+    console.log('onAuthStateChaged')
 })
 
-onBeforeUnmount(()=> {
+onBeforeUnmount(() => {
     console.log('before unmount, unsubscribe.')
     unsubscribe()
 })
