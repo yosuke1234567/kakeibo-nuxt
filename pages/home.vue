@@ -1,7 +1,18 @@
 <script setup lang="ts">
 import { getAuth } from '@firebase/auth'
 
+const userStore = useUser()
 
+;(async () => {
+    // const token = await userStore.value.getIdToken(true)
+    // const headers = { 'Authorization': `Bearer ${token}` }
+    // const userData = await useAsyncData(
+    //     'dbUser',
+    //     () => $fetch(`/api/users/${userStore.value.uid}`, { headers }),
+    //     // { server: false, lazy: true }
+    // )
+}
+)()
 </script>
 
 <template>
@@ -16,6 +27,7 @@ import { getAuth } from '@firebase/auth'
 h2 {
     margin-bottom: 16px;
 }
+
 .card {
     min-height: 176px;
     margin-bottom: 40px;

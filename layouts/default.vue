@@ -6,22 +6,33 @@ const router = useRouter()
 const route = useRoute()
 
 const isAuth = ref<boolean>()
+const isInitializing = ref(false)
+const userStore = useUser()
 
 const unsubscribe = onAuthStateChanged(auth, async (user) => {
     if (user) {
-        isAuth.value = true
-        const token = await user.getIdToken(true)
-        const { data, pending, error } = await useFetch('api/auth', {
-            method: 'POST',
-            body: token
-        })
-        if (error.value) {
-            isAuth.value = false
-            auth.signOut()
-            router.replace('/signin')
+        if (route.path === '/signin') {
+            isInitializing.value = true
+            const token = await user.getIdToken(true)
+            const { data, error } = await useFetch(`api/users/${user.uid}`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            if (error.value) {
+                isAuth.value = false
+                auth.signOut()
+                router.replace('/signin')
+            } else if (data.value) {
+                console.log(data.value)
+            }
         }
+        userStore.value = user
+        isInitializing.value = false
+        await router.replace('/home')
+        isAuth.value = true
 
-        router.replace('/home')
     } else {
         isAuth.value = false
         router.replace('/signin')
@@ -67,6 +78,7 @@ onBeforeUnmount(() => {
 
     <div v-else class="page-loading">
         <v-progress-circular indeterminate></v-progress-circular>
+        <p v-if="isInitializing">初期化しています...</p>
     </div>
 </template>
 

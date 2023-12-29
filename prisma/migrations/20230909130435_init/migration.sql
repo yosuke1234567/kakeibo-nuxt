@@ -1,6 +1,7 @@
 -- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
+    "category_order" INTEGER[],
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
